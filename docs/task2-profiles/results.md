@@ -44,8 +44,23 @@ This means: open any Claude Code session in the project → type your task natur
   - Identified 3 improvement areas: silent error handling, sequential API calls, missing WorkManager
   - All findings backed by file:line references
 
+### Step 7: Tested Bug Fix on Real Bug (user-run, separate session)
+- **Bug**: "When I click Open on Reddit it opens the browser but the URL is wrong — it has the base address doubled"
+- **Prompt given**: exact bug description, no hints
+- **Result**: PASS on first attempt
+  - Agent searched for "Open on Reddit" in codebase
+  - Found `DetailScreen.kt:148` prepends `https://www.reddit.com` to `recommendation.url`
+  - Found `RedditDtoMapper.kt:36` already stores the full URL with base in `recommendation.url`
+  - Result: double URL `https://www.reddit.comhttps://www.reddit.com/r/...`
+  - Fix: changed `val redditUrl = "https://www.reddit.com${recommendation.url}"` to `val redditUrl = recommendation.url`
+  - One line, one file
+- **Profile detection**: Claude activated the Bug Fix workflow automatically (detected "broken" / "wrong" keywords) but did NOT display the stage announcements we added — it skipped the emoji prefix format
+
+### Observation: Stage Announcements
+After Step 7 we noticed Claude doesn't reliably announce profile stages with the `🔧 Profile: Bug Fix | Stage 1: Reproduce` format. The profile was followed correctly but the visual indicator was inconsistent. This is a limitation of text-based instructions — Claude may compress or skip formatting it considers non-essential.
+
 ## Test Logs
-- `bugfix-test-log.md` — full Bug Fix agent output
+- `bugfix-test-log.md` — full Bug Fix agent output (injected bug test)
 - `research-test-log.md` — full Research agent output
 
 ## How to Use Profiles
