@@ -376,6 +376,39 @@ adb shell cat /sdcard/ui.xml
 
 **Rules**: MUST use `uiautomator dump` to find coordinates — do NOT guess. MUST take screenshot after every tap. MUST read each screenshot to verify visually. MUST report ALL scenarios even if some pass.
 
+### Profile: Execution Loop
+
+Triggered by: "execution loop", "start loop", "run all tasks", "запусти цикл"
+
+**Autonomous task execution.** Agent reads task pool, picks next uncompleted task, detects profile, executes, commits, picks next. No human intervention.
+
+**Flow:**
+1. Read `docs/task5-execution-loop/tasks.md` — find first `- [ ]` task
+2. Mark it `- [~]` (in progress)
+3. Detect task type from tag: `[Bug]` → Bug Fix, `[Feature]` → Feature, `[Refactor]` → Feature, `[Test]` → Testing, `[Docs]` → Feature
+4. Execute using the detected profile's stages
+5. When done:
+   - Mark task `- [x]` in tasks.md
+   - Commit all changes: `git add -A && git commit -m "T<XX>: <task title>"`
+   - Log result in `docs/task5-execution-loop/execution-log.md`
+   - Read tasks.md again → pick next `- [ ]` task
+6. If task fails:
+   - Mark task `- [!]` with failure reason
+   - Log failure in execution-log.md
+   - CONTINUE to next task — do not stop the loop
+
+**Logging per task:**
+```
+| T<XX> | <title> | <profile> | PASS/FAIL | <minutes> | <notes> |
+```
+
+**Stop conditions:**
+- All tasks completed
+- 3 consecutive failures
+- User interrupts
+
+**Rules**: MUST commit after each task. MUST NOT ask for clarification — if unclear, skip and mark `[!]`. MUST re-read tasks.md before each task (file may have been updated). MUST follow the detected profile's stages fully — do not shortcut.
+
 ## Key Design Decisions
 
 - **Recommendation, not Place**: data model represents Reddit posts, not physical locations
