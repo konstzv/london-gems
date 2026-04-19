@@ -38,7 +38,7 @@
 
 ## Missing Tests
 
-- [ ] **T12** [Test] Add unit test for CategoryConverter — test fromCategory and toCategory with all Category enum values. **Done when**: test file exists, covers all 7 enum values.
+- [x] **T12** [Test] Add unit test for CategoryConverter — test fromCategory and toCategory with all Category enum values. **Done when**: test file exists, covers all 7 enum values.
 
 - [ ] **T13** [Test] Add unit test for ToggleFavoriteUseCase and ToggleDoneUseCase — verify they delegate to repository. **Done when**: test files exist with passing tests.
 
