@@ -100,6 +100,9 @@ interface RecommendationDao {
     @Query("UPDATE recommendations SET isDone = NOT isDone WHERE redditId = :redditId")
     suspend fun toggleDone(redditId: String)
 
+    @Query("UPDATE recommendations SET isFavorite = 0 WHERE isFavorite = 1")
+    suspend fun clearAllFavorites()
+
     @Query("DELETE FROM recommendations")
     suspend fun deleteAll()
 }

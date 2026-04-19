@@ -40,6 +40,7 @@ class ToggleDoneUseCaseTest {
         override fun getFavorites(): Flow<List<Recommendation>> = emptyFlow()
         override suspend fun toggleFavorite(redditId: String) {}
         override suspend fun toggleDone(redditId: String) { toggleDoneCalls.add(redditId) }
+        override suspend fun clearAllFavorites() {}
         override suspend fun syncFromReddit(): DataResult<Int> = DataResult.Success(0)
         override fun getLastSyncTimestamp(): Flow<Long?> = emptyFlow()
     }

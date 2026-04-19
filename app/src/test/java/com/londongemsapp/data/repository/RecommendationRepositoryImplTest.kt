@@ -316,6 +316,8 @@ class RecommendationRepositoryImplTest {
             lastToggledDoneId = redditId
         }
 
+        override suspend fun clearAllFavorites() {}
+
         override suspend fun deleteAll() {}
     }
 

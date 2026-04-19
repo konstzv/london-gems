@@ -54,4 +54,10 @@ class FavoritesViewModel @Inject constructor(
             toggleFavorite.invoke(recommendationId)
         }
     }
+
+    fun clearAllFavorites() {
+        viewModelScope.launch {
+            repository.clearAllFavorites()
+        }
+    }
 }

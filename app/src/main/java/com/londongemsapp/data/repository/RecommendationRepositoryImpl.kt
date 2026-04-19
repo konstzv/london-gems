@@ -44,6 +44,10 @@ class RecommendationRepositoryImpl @Inject constructor(
         dao.toggleDone(redditId)
     }
 
+    override suspend fun clearAllFavorites() {
+        dao.clearAllFavorites()
+    }
+
     override suspend fun syncFromReddit(): DataResult<Int> =
         try {
             val now = System.currentTimeMillis()

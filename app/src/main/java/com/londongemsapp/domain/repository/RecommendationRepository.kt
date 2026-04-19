@@ -16,6 +16,8 @@ interface RecommendationRepository {
     suspend fun toggleFavorite(redditId: String)
     /** Toggles the done flag for the recommendation with the given [redditId]. */
     suspend fun toggleDone(redditId: String)
+    /** Clears the favorite flag on all favorited recommendations. */
+    suspend fun clearAllFavorites()
     /** Fetches fresh recommendations from Reddit and upserts them into the local database. */
     suspend fun syncFromReddit(): DataResult<Int>
     /** Returns a reactive stream of the last successful sync timestamp in milliseconds, or null if never synced. */
