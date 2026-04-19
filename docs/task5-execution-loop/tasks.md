@@ -58,7 +58,7 @@
 
 - [x] **T19** [Bug] RedditAuthInterceptor is still in the codebase but unused after switching to public JSON endpoint — remove dead code. **Done when**: RedditAuthInterceptor.kt deleted, no references remain.
 
-- [ ] **T20** [Refactor] Make sync interval configurable from Settings screen — store preference, pass to WorkManager. **Done when**: Settings has sync interval picker, value persisted.
+- [x] **T20** [Refactor] Make sync interval configurable from Settings screen — store preference, pass to WorkManager. **Done when**: Settings has sync interval picker, value persisted.
 
 ## UI/Design
 

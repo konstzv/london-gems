@@ -21,7 +21,22 @@ class SyncPreferences @Inject constructor(
         lastSyncFlow.value = timestamp
     }
 
+    private val syncIntervalFlow = MutableStateFlow(
+        prefs.getLong(KEY_SYNC_INTERVAL, DEFAULT_SYNC_INTERVAL_MINUTES)
+    )
+
+    fun getSyncIntervalMinutes(): Flow<Long> = syncIntervalFlow
+
+    fun getSyncIntervalMinutesValue(): Long = syncIntervalFlow.value
+
+    fun setSyncIntervalMinutes(minutes: Long) {
+        prefs.edit().putLong(KEY_SYNC_INTERVAL, minutes).apply()
+        syncIntervalFlow.value = minutes
+    }
+
     companion object {
         private const val KEY_LAST_SYNC = "last_sync_timestamp"
+        private const val KEY_SYNC_INTERVAL = "sync_interval_minutes"
+        const val DEFAULT_SYNC_INTERVAL_MINUTES = 30L
     }
 }
