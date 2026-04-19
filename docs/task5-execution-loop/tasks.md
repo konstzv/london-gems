@@ -32,7 +32,7 @@
 
 - [x] **T09** [Refactor] Extract hardcoded strings from DetailScreen to strings.xml — "Open on Reddit", "Share", "Mark as done", "Done", "From r/". **Done when**: all user-facing strings use stringResource().
 
-- [ ] **T10** [Refactor] Move entity↔domain mapping extensions from RecommendationRepositoryImpl.kt to a separate Mappers.kt file. **Done when**: mappers in their own file, repository imports them.
+- [x] **T10** [Refactor] Move entity↔domain mapping extensions from RecommendationRepositoryImpl.kt to a separate Mappers.kt file. **Done when**: mappers in their own file, repository imports them.
 
 - [ ] **T11** [Refactor] Replace raw SharedPreferences in RecommendationRepositoryImpl with a dedicated SyncPreferences wrapper class. **Done when**: repository uses SyncPreferences instead of raw SharedPreferences.
 

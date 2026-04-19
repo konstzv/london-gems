@@ -2,7 +2,6 @@ package com.londongemsapp.data.repository
 
 import android.content.SharedPreferences
 import com.londongemsapp.data.local.RecommendationDao
-import com.londongemsapp.data.local.entity.RecommendationEntity
 import com.londongemsapp.data.remote.RedditApi
 import com.londongemsapp.data.remote.RedditDtoMapper
 import com.londongemsapp.domain.model.Category
@@ -85,34 +84,3 @@ class RecommendationRepositoryImpl @Inject constructor(
         private const val KEY_LAST_SYNC = "last_sync_timestamp"
     }
 }
-
-// -- Entity <-> Domain mapping extensions --
-
-private fun RecommendationEntity.toDomain() = Recommendation(
-    redditId = redditId,
-    title = title,
-    body = body,
-    subreddit = subreddit,
-    category = category,
-    score = score,
-    url = url,
-    thumbnailUrl = thumbnailUrl,
-    isFavorite = isFavorite,
-    isDone = isDone,
-    createdAt = createdAt,
-)
-
-private fun Recommendation.toEntity(fetchedAt: Long) = RecommendationEntity(
-    redditId = redditId,
-    title = title,
-    body = body,
-    subreddit = subreddit,
-    category = category,
-    score = score,
-    url = url,
-    thumbnailUrl = thumbnailUrl,
-    isFavorite = isFavorite,
-    isDone = isDone,
-    createdAt = createdAt,
-    fetchedAt = fetchedAt,
-)
