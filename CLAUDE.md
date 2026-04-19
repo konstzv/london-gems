@@ -211,6 +211,84 @@ package com.londongemsapp.<layer>.<feature>
 ./gradlew assembleDebug
 ```
 
+## Profiles (auto-detect by task type)
+
+Every request is handled through ONE profile. Detect automatically by keywords:
+
+| Trigger keywords | Profile |
+|-----------------|---------|
+| bug, fix, crash, broken, error, не работает, exception, NPE, regression | Bug Fix |
+| how does, what uses, explain, where is, which files, покажи, research, trace | Research |
+| add, create, implement, new screen, feature, endpoint, интеграция | Feature |
+
+### Profile: Bug Fix
+
+**Stages** (follow in order, do not skip):
+
+1. **Reproduce** — Read the bug description. Search for relevant files by keywords. Identify the code path. Document expected vs actual behavior.
+
+2. **Diagnose** — Trace the full path: UI → ViewModel → UseCase → Repository → Data Source. Check `git log --oneline -10 -- <file>` for recent changes. Identify ROOT CAUSE, not symptoms.
+
+3. **Fix** — Minimal change only. Do NOT refactor, add features, or touch unrelated files. Follow project conventions from this file.
+
+4. **Verify** — Check the fix compiles. Search for other callers of changed code — ensure no regressions. If bug was in data layer, verify Entity ↔ Domain mapping consistency.
+
+5. **Report** — Output:
+```
+## Bug Fix Report
+### Bug: <one-line>
+### Root Cause: <file:line — what was wrong>
+### Fix: <what changed and why>
+### Files Modified: <list>
+### Verification: compiles / no regressions / follows conventions
+```
+
+**Rules**: MUST read full code path before fixing. MUST NOT change more than 3 files. MUST NOT add comments explaining the fix.
+
+### Profile: Research
+
+**Stages** (follow in order, do not skip):
+
+1. **Understand** — Classify the question: architecture (trace flow), coverage (scan gaps), dependency (trace callers), comparison (read both).
+
+2. **Investigate** — Read files systematically following imports. For architecture questions: trace UI → ViewModel → UseCase → Repository → Data Source. Read at least 5 files before forming conclusions.
+
+3. **Synthesize** — Organize findings. Include file paths and line numbers for every claim. Answer the question directly first, then details.
+
+4. **Report** — Output:
+```
+## Research Report: <question>
+### Answer: <2-3 sentences>
+### Detailed Findings: <with file:line references>
+### File Map: <files examined and their role>
+### Observations: <gaps, risks, inconsistencies found>
+```
+
+**Rules**: MUST NOT modify any code. MUST NOT speculate — only report what's verifiable in the code. MUST include file:line for every claim.
+
+### Profile: Feature
+
+**Stages** (follow in order, do not skip):
+
+1. **Research** — Read this CLAUDE.md. Read existing code in the area being modified. Understand the patterns already in use.
+
+2. **Plan** — List the files to create/modify. Verify the plan follows project architecture (correct layer, correct package).
+
+3. **Implement** — Write code following all conventions from this file. Use existing patterns (UseCases, DataResult, UiState). Reuse existing code — do not duplicate.
+
+4. **Verify** — Check all imports resolve. Check DI graph is complete. Check new code integrates with existing navigation/screens.
+
+5. **Report** — Output:
+```
+## Feature Report
+### Feature: <one-line>
+### Files Created: <list with purpose>
+### Files Modified: <list with what changed>
+### Integration: <how it connects to existing code>
+```
+
+**Rules**: MUST reuse existing code (UseCases, Repository, DTOs). MUST NOT duplicate existing classes. MUST NOT add dependencies not in libs.versions.toml.
+
 ## Key Design Decisions
 
 - **Recommendation, not Place**: data model represents Reddit posts, not physical locations
