@@ -37,36 +37,30 @@
 
 ## Run 2 (Cloud — after rules update)
 
-| # | Task | Profile | Result | Time | Notes |
-|---|------|---------|:------:|------|-------|
-| | | | | | |
-
-**Streak**: ___ tasks without intervention
-**Broke on**: T__ — reason: ___
-**First-pass rate**: ___/20
-**Average time**: ___
+Not needed. Run 1 completed all 25 tasks with zero failures. No rules iteration required.
 
 ## Run 3 (Local — Qwen 2.5 Coder 32B)
 
-| # | Task | Profile | Result | Time | Notes |
-|---|------|---------|:------:|------|-------|
-| | | | | | |
+Tested on single-task comparison only (Day 4). Not run on full loop.
 
-**Streak**: ___ tasks without intervention
-**First-pass rate**: ___/20
+Single-task score: 5.5/13 (42%) vs Claude's 11/11 (100%). Key gaps: wrong import path, missing scheduling code, wrong package placement. Would not survive a multi-task loop — first task that requires cross-file integration would likely fail.
 
 ## Comparison
 
 | Metric | Run 1 (Cloud) | Run 2 (Cloud v2) | Run 3 (Local) |
 |--------|:---:|:---:|:---:|
-| Streak (tasks in a row) | | | |
-| First-pass rate | | | |
-| Average time per task | | | |
-| Failed on task type | | | |
+| Streak (tasks in a row) | 25 | N/A (not needed) | N/A (single task only) |
+| First-pass rate | 25/25 (100%) | — | 1 task: 42% score |
+| Average time per task | ~2 min | — | ~4 min (single task) |
+| Failed on task type | None | — | Integration tasks |
+| Total time | ~40 min | — | — |
 
 ## Rules Updated Between Runs
 
-> What was added/changed in CLAUDE.md after Run 1 failures:
-> -
-> -
-> -
+No updates needed — Run 1 had zero failures.
+
+**Why it worked without iteration:**
+1. CLAUDE.md was already iterated during Day 1 (Gen 1 vs Gen 2 comparison) — the rules were battle-tested before the loop
+2. Profiles from Day 2 provided structured workflows — the agent didn't freestyle, it followed stages
+3. Task granularity was correct — each task was 1-3 files, ~2 min, with clear "done when" criteria
+4. The project architecture (clean architecture, clear package structure) made each task self-contained
