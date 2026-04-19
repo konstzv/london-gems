@@ -225,6 +225,7 @@ Update the stage announcement as you progress through each stage.
 | bug, fix, crash, broken, error, не работает, exception, NPE, regression | Bug Fix |
 | how does, what uses, explain, where is, which files, покажи, research, trace | Research |
 | add, create, implement, new screen, feature, endpoint, интеграция | Feature |
+| test, тесты, smoke, прогони тесты, run tests, verify, проверь, deployed, задеплоил | Testing |
 
 ### Profile: Bug Fix
 
@@ -293,6 +294,87 @@ Update the stage announcement as you progress through each stage.
 ```
 
 **Rules**: MUST reuse existing code (UseCases, Repository, DTOs). MUST NOT duplicate existing classes. MUST NOT add dependencies not in libs.versions.toml.
+
+### Profile: Testing
+
+Triggered by: "run tests", "прогони тесты", "verify after deploy", "задеплоил новую фичу", "update smoke scenarios"
+
+**Full testing cycle** — runs both levels and produces a unified report.
+
+**Stages** (follow in order):
+
+1. **Level 1: Unit Tests** — Run `./gradlew test` (ask user to run if Gradle is unavailable from sandbox). Read test output. If failures: identify the failing test, read the test file AND the source file it tests, diagnose why it fails, suggest a fix with file:line.
+
+2. **Level 2: Smoke Tests via ADB** — Check device connected via `/opt/android_sdk/platform-tools/adb devices`. Then for each scenario in `docs/task3-testing/smoke-scenarios.md`:
+   - Launch app: `adb shell am force-stop com.londongemsapp && adb shell am start -n com.londongemsapp/.MainActivity`
+   - Wait for load: `sleep 3`
+   - Find elements: `adb shell uiautomator dump /sdcard/ui.xml` → parse bounds → compute tap coordinates
+   - Tap: `adb shell input tap X Y`
+   - Screenshot: `adb exec-out screencap -p > docs/task3-testing/screenshots/<step>.png`
+   - Read screenshot to verify visually
+   - Navigate back: `adb shell input keyevent KEYCODE_BACK`
+   - Record PASS/FAIL per scenario step
+
+3. **Diagnose Failures** — If any scenario fails:
+   - Take screenshot of the failure state
+   - Use `uiautomator dump` to see what's actually on screen
+   - Trace the code path for the failing feature (use Research profile logic)
+   - Report: which file, which line, what's likely wrong
+
+4. **Unified Report** — Write to `docs/task3-testing/test-report-<YYYY-MM-DD>.md`:
+```
+## Test Report — <date>
+
+### Level 1: Unit Tests
+- Total: X | Passed: X | Failed: X
+- Failures: <list with test name + cause>
+
+### Level 2: Smoke Tests
+| # | Scenario | Result | Screenshot | Notes |
+|---|----------|--------|-----------|-------|
+| 1 | Feed loads | PASS/FAIL | link | ... |
+
+### Failures Diagnosed
+- <scenario>: <file:line> — <what's wrong>
+
+### Recommendations
+- <what to fix>
+```
+
+**Special trigger: "I deployed a new feature — update smoke scenarios"**
+
+When this is detected:
+1. Read `docs/task3-testing/smoke-scenarios.md` (current scenarios)
+2. Read recent git changes: `git log --oneline -5` + `git diff HEAD~1`
+3. Identify new UI features from the diff (new screens, buttons, flows)
+4. Add new smoke scenarios to `smoke-scenarios.md` covering the new feature
+5. Run the full testing cycle (all scenarios including new ones)
+6. Report which new scenarios were added and their results
+
+**ADB Quick Reference:**
+```bash
+# Device check
+adb devices
+# Launch app
+adb shell am start -n com.londongemsapp/.MainActivity
+# Force stop
+adb shell am force-stop com.londongemsapp
+# Screenshot
+adb exec-out screencap -p > file.png
+# Tap at coordinates
+adb shell input tap X Y
+# Back button
+adb shell input keyevent KEYCODE_BACK
+# Scroll down
+adb shell input swipe 540 1500 540 500
+# Dump UI hierarchy
+adb shell uiautomator dump /sdcard/ui.xml
+adb shell cat /sdcard/ui.xml
+# Find element: grep for text="Button Text" to get bounds="[x1,y1][x2,y2]"
+# Tap center: ((x1+x2)/2, (y1+y2)/2)
+```
+
+**Rules**: MUST use `uiautomator dump` to find coordinates — do NOT guess. MUST take screenshot after every tap. MUST read each screenshot to verify visually. MUST report ALL scenarios even if some pass.
 
 ## Key Design Decisions
 
