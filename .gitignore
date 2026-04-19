@@ -36,3 +36,4 @@ google-services.json
 # Proguard
 /app/proguard-rules.pro.bak
 .kotlin/
+.claude/
