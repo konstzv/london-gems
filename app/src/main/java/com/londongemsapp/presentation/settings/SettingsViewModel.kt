@@ -1,14 +1,15 @@
 package com.londongemsapp.presentation.settings
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.londongemsapp.data.local.SyncPreferences
 import com.londongemsapp.data.worker.SyncScheduler
+import com.londongemsapp.presentation.theme.ThemeMode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
-import androidx.lifecycle.viewModelScope
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
@@ -23,8 +24,19 @@ class SettingsViewModel @Inject constructor(
             initialValue = syncPreferences.getSyncIntervalMinutesValue()
         )
 
+    val themeMode: StateFlow<ThemeMode> = syncPreferences.getThemeMode()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = syncPreferences.getThemeModeValue()
+        )
+
     fun setSyncInterval(minutes: Long) {
         syncPreferences.setSyncIntervalMinutes(minutes)
         syncScheduler.schedule(minutes)
+    }
+
+    fun setThemeMode(mode: ThemeMode) {
+        syncPreferences.setThemeMode(mode)
     }
 }

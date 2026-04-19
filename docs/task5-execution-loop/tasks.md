@@ -68,6 +68,6 @@
 
 - [x] **T23** [Feature] Add shimmer loading placeholders — show animated shimmer cards while feed is loading instead of plain CircularProgressIndicator. Use Compose animation, no external library. **Done when**: loading state shows 3-4 shimmer card placeholders.
 
-- [ ] **T24** [Feature] Dark/Light theme toggle in Settings — add switch that persists theme choice. Currently follows system only. **Done when**: Settings has theme toggle (System/Light/Dark), choice persists across app restarts.
+- [x] **T24** [Feature] Dark/Light theme toggle in Settings — add switch that persists theme choice. Currently follows system only. **Done when**: Settings has theme toggle (System/Light/Dark), choice persists across app restarts.
 
 - [ ] **T25** [Feature] Animated transitions between screens — add shared element transitions or fade/slide animations when navigating from Feed to Detail and back. **Done when**: screen transitions have visible animation instead of instant swap.

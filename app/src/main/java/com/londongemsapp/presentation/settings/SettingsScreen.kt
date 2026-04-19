@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Sync
@@ -33,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.londongemsapp.BuildConfig
+import com.londongemsapp.presentation.theme.ThemeMode
 
 private val SYNC_INTERVAL_OPTIONS = listOf(15L, 30L, 60L, 120L, 360L)
 
@@ -42,7 +44,9 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val syncInterval by viewModel.syncIntervalMinutes.collectAsState()
+    val themeMode by viewModel.themeMode.collectAsState()
     var showIntervalPicker by remember { mutableStateOf(false) }
+    var showThemePicker by remember { mutableStateOf(false) }
 
     if (showIntervalPicker) {
         AlertDialog(
@@ -83,6 +87,45 @@ fun SettingsScreen(
         )
     }
 
+    if (showThemePicker) {
+        AlertDialog(
+            onDismissRequest = { showThemePicker = false },
+            title = { Text("Theme") },
+            text = {
+                Column {
+                    ThemeMode.entries.forEach { mode ->
+                        val label = when (mode) {
+                            ThemeMode.SYSTEM -> "System default"
+                            ThemeMode.LIGHT -> "Light"
+                            ThemeMode.DARK -> "Dark"
+                        }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.clickable {
+                                viewModel.setThemeMode(mode)
+                                showThemePicker = false
+                            }
+                        ) {
+                            RadioButton(
+                                selected = themeMode == mode,
+                                onClick = {
+                                    viewModel.setThemeMode(mode)
+                                    showThemePicker = false
+                                }
+                            )
+                            Text(label)
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showThemePicker = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -116,6 +159,26 @@ fun SettingsScreen(
                     )
                 },
                 modifier = Modifier.clickable { showIntervalPicker = true }
+            )
+
+            HorizontalDivider()
+
+            ListItem(
+                headlineContent = { Text("Theme") },
+                supportingContent = {
+                    Text(when (themeMode) {
+                        ThemeMode.SYSTEM -> "System default"
+                        ThemeMode.LIGHT -> "Light"
+                        ThemeMode.DARK -> "Dark"
+                    })
+                },
+                leadingContent = {
+                    Icon(
+                        imageVector = Icons.Outlined.DarkMode,
+                        contentDescription = null
+                    )
+                },
+                modifier = Modifier.clickable { showThemePicker = true }
             )
 
             HorizontalDivider()
