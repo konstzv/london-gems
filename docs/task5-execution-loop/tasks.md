@@ -26,7 +26,7 @@
 
 - [x] **T07** [Feature] Add "About" section in Settings screen — show app version, GitHub link. **Done when**: Settings screen shows app version from BuildConfig.
 
-- [ ] **T08** [Feature] Add timestamp formatting — show "2h ago" or "3 days ago" instead of raw timestamp. **Done when**: cards show relative time like "2h ago".
+- [x] **T08** [Feature] Add timestamp formatting — show "2h ago" or "3 days ago" instead of raw timestamp. **Done when**: cards show relative time like "2h ago".
 
 ## Refactoring
 

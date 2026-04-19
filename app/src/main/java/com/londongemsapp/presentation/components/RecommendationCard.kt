@@ -1,5 +1,6 @@
 package com.londongemsapp.presentation.components
 
+import android.text.format.DateUtils
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -100,6 +101,19 @@ fun RecommendationCard(
                             text = recommendation.score.toString(),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+
+                        Spacer(modifier = Modifier.width(8.dp))
+
+                        Text(
+                            text = DateUtils.getRelativeTimeSpanString(
+                                recommendation.createdAt,
+                                System.currentTimeMillis(),
+                                DateUtils.MINUTE_IN_MILLIS,
+                                DateUtils.FORMAT_ABBREV_RELATIVE
+                            ).toString(),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.outline
                         )
 
                         Spacer(modifier = Modifier.width(8.dp))
