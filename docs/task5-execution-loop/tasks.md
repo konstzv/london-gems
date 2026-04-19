@@ -56,7 +56,7 @@
 
 - [x] **T18** [Feature] Add "Clear all favorites" button to Favorites screen with confirmation dialog. **Done when**: button exists, shows confirmation, clears all favorites.
 
-- [ ] **T19** [Bug] RedditAuthInterceptor is still in the codebase but unused after switching to public JSON endpoint — remove dead code. **Done when**: RedditAuthInterceptor.kt deleted, no references remain.
+- [x] **T19** [Bug] RedditAuthInterceptor is still in the codebase but unused after switching to public JSON endpoint — remove dead code. **Done when**: RedditAuthInterceptor.kt deleted, no references remain.
 
 - [ ] **T20** [Refactor] Make sync interval configurable from Settings screen — store preference, pass to WorkManager. **Done when**: Settings has sync interval picker, value persisted.
 
