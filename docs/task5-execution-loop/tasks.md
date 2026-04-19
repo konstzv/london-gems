@@ -42,7 +42,7 @@
 
 - [x] **T13** [Test] Add unit test for ToggleFavoriteUseCase and ToggleDoneUseCase — verify they delegate to repository. **Done when**: test files exist with passing tests.
 
-- [ ] **T14** [Test] Add edge case tests for KeywordCategoryClassifier — test with very long text, special characters, mixed case keywords. **Done when**: 5+ new edge case tests added.
+- [x] **T14** [Test] Add edge case tests for KeywordCategoryClassifier — test with very long text, special characters, mixed case keywords. **Done when**: 5+ new edge case tests added.
 
 ## Documentation
 

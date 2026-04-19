@@ -271,4 +271,99 @@ class KeywordCategoryClassifierTest {
 
         assertEquals(Category.PARKS_AND_NATURE, result.category)
     }
+
+    // -- Additional edge cases --
+
+    @Test
+    fun classify_veryLongText_doesNotCrashAndClassifiesCorrectly() {
+        val longBody = "This is a really long post about a pub. ".repeat(500) +
+            "restaurant cafe coffee brunch dinner"
+        val result = classifier.classify(
+            subreddit = "london",
+            title = "Long review of food places",
+            body = longBody,
+            flair = null,
+        )
+
+        assertEquals(Category.FOOD_AND_DRINKS, result.category)
+    }
+
+    @Test
+    fun classify_specialCharactersInText_handlesGracefully() {
+        val result = classifier.classify(
+            subreddit = "london",
+            title = "Best café & restaurant!!! 🍕🍔 #food @london",
+            body = "Amazing pub — great beer (£5/pint); brunch is 10/10!!!",
+            flair = null,
+        )
+
+        assertEquals(Category.FOOD_AND_DRINKS, result.category)
+    }
+
+    @Test
+    fun classify_mixedCaseKeywords_matchesCaseInsensitively() {
+        val result = classifier.classify(
+            subreddit = "london",
+            title = "BEST PUB FOR SUNDAY ROAST",
+            body = "Looking for RESTAURANT with great BEER and BRUNCH options",
+            flair = null,
+        )
+
+        assertEquals(Category.FOOD_AND_DRINKS, result.category)
+    }
+
+    @Test
+    fun classify_keywordsAsSubstrings_matchesPartialWords() {
+        val result = classifier.classify(
+            subreddit = "london",
+            title = "Unpublished garden parks review",
+            body = "The parklands have natural walking trails near the canal",
+            flair = null,
+        )
+
+        assertEquals(Category.PARKS_AND_NATURE, result.category)
+    }
+
+    @Test
+    fun classify_whitespaceOnlyTitleAndBody_returnsUncategorized() {
+        val result = classifier.classify(
+            subreddit = "london",
+            title = "   \t\n  ",
+            body = "  \n\t  ",
+            flair = null,
+        )
+
+        assertEquals(Category.UNCATEGORIZED, result.category)
+    }
+
+    @Test
+    fun classify_emptyFlair_treatedAsNull() {
+        val withEmpty = classifier.classify(
+            subreddit = "london",
+            title = "Great pub and beer",
+            body = "Nice restaurant with roast dinner",
+            flair = "",
+        )
+        val withNull = classifier.classify(
+            subreddit = "london",
+            title = "Great pub and beer",
+            body = "Nice restaurant with roast dinner",
+            flair = null,
+        )
+
+        assertEquals(withNull.category, withEmpty.category)
+        assertEquals(withNull.confidence, withEmpty.confidence, 0.001f)
+    }
+
+    @Test
+    fun classify_tieBreaking_returnsHighestScoringCategory() {
+        val result = classifier.classify(
+            subreddit = "london",
+            title = "pub museum club park",
+            body = "beer gallery dancing trail",
+            flair = null,
+        )
+
+        assertTrue(result.category != Category.UNCATEGORIZED)
+    }
 }
