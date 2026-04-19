@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,6 +32,9 @@ class FeedViewModel @Inject constructor(
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
 
+    private val _initialLoadComplete = MutableStateFlow(false)
+    private val _syncError = MutableStateFlow<String?>(null)
+
     val lastSyncTimestamp: StateFlow<Long?> = repository.getLastSyncTimestamp()
         .stateIn(
             scope = viewModelScope,
@@ -39,15 +42,18 @@ class FeedViewModel @Inject constructor(
             initialValue = null
         )
 
-    val uiState: StateFlow<UiState<List<Recommendation>>> = _selectedCategory
-        .flatMapLatest { category -> getRecommendations(category) }
-        .map { recommendations ->
-            if (recommendations.isEmpty() && lastSyncTimestamp.value == null) {
-                UiState.Loading
-            } else {
-                UiState.Success(recommendations)
-            }
+    val uiState: StateFlow<UiState<List<Recommendation>>> = combine(
+        _selectedCategory.flatMapLatest { category -> getRecommendations(category) },
+        _initialLoadComplete,
+        _syncError
+    ) { recommendations, loadComplete, syncError ->
+        when {
+            recommendations.isNotEmpty() -> UiState.Success(recommendations)
+            !loadComplete -> UiState.Loading
+            syncError != null -> UiState.Error(syncError)
+            else -> UiState.Success(recommendations)
         }
+    }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
@@ -65,15 +71,17 @@ class FeedViewModel @Inject constructor(
     fun refresh() {
         viewModelScope.launch {
             _isRefreshing.value = true
+            _syncError.value = null
             try {
                 val result = syncRecommendations()
                 if (result is DataResult.Error) {
-                    // Sync failed but cached data (if any) is already flowing through uiState
+                    _syncError.value = result.exception.message ?: "Sync failed"
                 }
-            } catch (_: Exception) {
-                // Network errors are surfaced through DataResult
+            } catch (e: Exception) {
+                _syncError.value = e.message ?: "Sync failed"
             } finally {
                 _isRefreshing.value = false
+                _initialLoadComplete.value = true
             }
         }
     }
