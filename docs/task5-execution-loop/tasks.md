@@ -10,7 +10,7 @@
 
 ## Bugs
 
-- [ ] **T01** [Bug] Double URL in "Open on Reddit" — DetailScreen.kt:148 prepends base URL to already-full URL. Fix: use `recommendation.url` directly. **Done when**: tapping "Open on Reddit" opens correct single URL.
+- [x] **T01** [Bug] Double URL in "Open on Reddit" — DetailScreen.kt:148 prepends base URL to already-full URL. Fix: use `recommendation.url` directly. **Done when**: tapping "Open on Reddit" opens correct single URL.
 
 - [ ] **T02** [Bug] Feed shows loading spinner forever on first launch with no network — UiState stays Loading even when sync fails. **Done when**: shows error/empty state instead of infinite spinner when offline.
 

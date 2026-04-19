@@ -145,7 +145,7 @@ private fun DetailContent(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val redditUrl = "https://www.reddit.com${recommendation.url}"
+    val redditUrl = recommendation.url
 
     Column(
         modifier = modifier
