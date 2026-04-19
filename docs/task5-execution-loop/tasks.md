@@ -59,3 +59,15 @@
 - [ ] **T19** [Bug] RedditAuthInterceptor is still in the codebase but unused after switching to public JSON endpoint — remove dead code. **Done when**: RedditAuthInterceptor.kt deleted, no references remain.
 
 - [ ] **T20** [Refactor] Make sync interval configurable from Settings screen — store preference, pass to WorkManager. **Done when**: Settings has sync interval picker, value persisted.
+
+## UI/Design
+
+- [ ] **T21** [Bug] Thumbnail images are low quality and pixelated — Reddit returns tiny default thumbnails (140px). Fix: parse `preview.images[0].source.url` from Reddit JSON for full-resolution images instead of `thumbnail` field. Update RedditPostDto, RedditDtoMapper, and RecommendationCard to use high-res images. **Done when**: card images are sharp, not pixelated.
+
+- [ ] **T22** [Feature] Modern card design — redesign RecommendationCard with: rounded corners (16dp), subtle gradient overlay on image, title overlaid on bottom of image (white text on dark gradient), category chip as small pill on top-left corner of image, remove separate text section below image. **Done when**: cards look modern like Instagram/Pinterest style with text on image.
+
+- [ ] **T23** [Feature] Add shimmer loading placeholders — show animated shimmer cards while feed is loading instead of plain CircularProgressIndicator. Use Compose animation, no external library. **Done when**: loading state shows 3-4 shimmer card placeholders.
+
+- [ ] **T24** [Feature] Dark/Light theme toggle in Settings — add switch that persists theme choice. Currently follows system only. **Done when**: Settings has theme toggle (System/Light/Dark), choice persists across app restarts.
+
+- [ ] **T25** [Feature] Animated transitions between screens — add shared element transitions or fade/slide animations when navigating from Feed to Detail and back. **Done when**: screen transitions have visible animation instead of instant swap.
