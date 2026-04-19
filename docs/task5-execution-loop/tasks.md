@@ -46,7 +46,7 @@
 
 ## Documentation
 
-- [ ] **T15** [Docs] Add KDoc to all public interfaces in domain/repository/RecommendationRepository.kt — document each method's purpose and return type. **Done when**: every public method has a one-line KDoc.
+- [x] **T15** [Docs] Add KDoc to all public interfaces in domain/repository/RecommendationRepository.kt — document each method's purpose and return type. **Done when**: every public method has a one-line KDoc.
 
 - [ ] **T16** [Docs] Create a README.md for the project — app description, screenshots, build instructions, architecture overview. **Done when**: README.md exists with all 4 sections.
 
