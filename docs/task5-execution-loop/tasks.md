@@ -40,7 +40,7 @@
 
 - [x] **T12** [Test] Add unit test for CategoryConverter — test fromCategory and toCategory with all Category enum values. **Done when**: test file exists, covers all 7 enum values.
 
-- [ ] **T13** [Test] Add unit test for ToggleFavoriteUseCase and ToggleDoneUseCase — verify they delegate to repository. **Done when**: test files exist with passing tests.
+- [x] **T13** [Test] Add unit test for ToggleFavoriteUseCase and ToggleDoneUseCase — verify they delegate to repository. **Done when**: test files exist with passing tests.
 
 - [ ] **T14** [Test] Add edge case tests for KeywordCategoryClassifier — test with very long text, special characters, mixed case keywords. **Done when**: 5+ new edge case tests added.
 
