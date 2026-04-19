@@ -70,4 +70,4 @@
 
 - [x] **T24** [Feature] Dark/Light theme toggle in Settings — add switch that persists theme choice. Currently follows system only. **Done when**: Settings has theme toggle (System/Light/Dark), choice persists across app restarts.
 
-- [ ] **T25** [Feature] Animated transitions between screens — add shared element transitions or fade/slide animations when navigating from Feed to Detail and back. **Done when**: screen transitions have visible animation instead of instant swap.
+- [x] **T25** [Feature] Animated transitions between screens — add shared element transitions or fade/slide animations when navigating from Feed to Detail and back. **Done when**: screen transitions have visible animation instead of instant swap.

@@ -1,5 +1,9 @@
 package com.londongemsapp.presentation.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Explore
@@ -84,7 +88,9 @@ fun AppNavigation() {
         NavHost(
             navController = navController,
             startDestination = Route.Feed,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
+            enterTransition = { fadeIn(animationSpec = tween(300)) },
+            exitTransition = { fadeOut(animationSpec = tween(300)) }
         ) {
             composable<Route.Feed> {
                 FeedScreen(
@@ -106,7 +112,32 @@ fun AppNavigation() {
                 SettingsScreen()
             }
 
-            composable<Route.Detail> { backStackEntry ->
+            composable<Route.Detail>(
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Start,
+                        animationSpec = tween(300)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.End,
+                        animationSpec = tween(300)
+                    )
+                },
+                popEnterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.End,
+                        animationSpec = tween(300)
+                    )
+                },
+                popExitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.End,
+                        animationSpec = tween(300)
+                    )
+                }
+            ) { backStackEntry ->
                 val detail: Route.Detail = backStackEntry.toRoute()
                 DetailScreen(
                     onBackClick = { navController.popBackStack() }
