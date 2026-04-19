@@ -1,0 +1,38 @@
+*.iml
+.gradle
+/.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+/app/build
+/app/release
+/app/schemas
+
+# Local config
+local.properties
+
+# Key store
+*.jks
+*.keystore
+
+# Google Services
+google-services.json
+
+# Kotlin
+*.class
+
+# Plans, reviews, reports (local only)
+/docs/plans/
+/swarm-report/
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Downloaded archives
+*.zip
+
+# Proguard
+/app/proguard-rules.pro.bak
+.kotlin/
