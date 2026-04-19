@@ -34,7 +34,7 @@ class RedditDtoMapper @Inject constructor(
             category = classification.category,
             score = dto.score,
             url = REDDIT_BASE_URL + dto.permalink,
-            thumbnailUrl = dto.thumbnail.takeIf { it.isValidThumbnailUrl() },
+            thumbnailUrl = extractImageUrl(dto),
             createdAt = (dto.createdUtc * 1000).toLong(),
         )
     }
@@ -44,6 +44,13 @@ class RedditDtoMapper @Inject constructor(
         return selftext == DELETED_MARKER ||
             selftext == REMOVED_MARKER ||
             dto.removedByCategory != null
+    }
+
+    private fun extractImageUrl(dto: RedditPostDto): String? {
+        val previewUrl = dto.preview?.images?.firstOrNull()?.source?.url
+            ?.replace("&amp;", "&")
+        if (previewUrl != null) return previewUrl
+        return dto.thumbnail.takeIf { it.isValidThumbnailUrl() }
     }
 
     private fun String?.isValidThumbnailUrl(): Boolean =

@@ -62,7 +62,7 @@
 
 ## UI/Design
 
-- [ ] **T21** [Bug] Thumbnail images are low quality and pixelated — Reddit returns tiny default thumbnails (140px). Fix: parse `preview.images[0].source.url` from Reddit JSON for full-resolution images instead of `thumbnail` field. Update RedditPostDto, RedditDtoMapper, and RecommendationCard to use high-res images. **Done when**: card images are sharp, not pixelated.
+- [x] **T21** [Bug] Thumbnail images are low quality and pixelated — Reddit returns tiny default thumbnails (140px). Fix: parse `preview.images[0].source.url` from Reddit JSON for full-resolution images instead of `thumbnail` field. Update RedditPostDto, RedditDtoMapper, and RecommendationCard to use high-res images. **Done when**: card images are sharp, not pixelated.
 
 - [ ] **T22** [Feature] Modern card design — redesign RecommendationCard with: rounded corners (16dp), subtle gradient overlay on image, title overlaid on bottom of image (white text on dark gradient), category chip as small pill on top-left corner of image, remove separate text section below image. **Done when**: cards look modern like Instagram/Pinterest style with text on image.
 

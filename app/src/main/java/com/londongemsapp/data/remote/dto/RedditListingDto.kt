@@ -31,13 +31,29 @@ data class RedditPostDto(
     val score: Int,
     val permalink: String,
     val thumbnail: String? = null,
+    val preview: RedditPreview? = null,
     @SerialName("created_utc")
     val createdUtc: Double,
     @SerialName("link_flair_text")
     val linkFlairText: String? = null,
     @SerialName("removed_by_category")
     val removedByCategory: String? = null,
-    // Reddit returns `false` when unedited or a Unix timestamp (Double) when edited.
-    // Using JsonElement avoids a custom serializer for this polymorphic field.
     val edited: JsonElement? = null,
+)
+
+@Serializable
+data class RedditPreview(
+    val images: List<RedditPreviewImage> = emptyList(),
+)
+
+@Serializable
+data class RedditPreviewImage(
+    val source: RedditImageSource,
+)
+
+@Serializable
+data class RedditImageSource(
+    val url: String,
+    val width: Int,
+    val height: Int,
 )
