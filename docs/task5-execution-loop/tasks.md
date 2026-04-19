@@ -34,7 +34,7 @@
 
 - [x] **T10** [Refactor] Move entity↔domain mapping extensions from RecommendationRepositoryImpl.kt to a separate Mappers.kt file. **Done when**: mappers in their own file, repository imports them.
 
-- [ ] **T11** [Refactor] Replace raw SharedPreferences in RecommendationRepositoryImpl with a dedicated SyncPreferences wrapper class. **Done when**: repository uses SyncPreferences instead of raw SharedPreferences.
+- [x] **T11** [Refactor] Replace raw SharedPreferences in RecommendationRepositoryImpl with a dedicated SyncPreferences wrapper class. **Done when**: repository uses SyncPreferences instead of raw SharedPreferences.
 
 ## Missing Tests
 

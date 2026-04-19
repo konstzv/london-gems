@@ -1,7 +1,7 @@
 package com.londongemsapp.data.repository
 
-import android.content.SharedPreferences
 import com.londongemsapp.data.local.RecommendationDao
+import com.londongemsapp.data.local.SyncPreferences
 import com.londongemsapp.data.remote.RedditApi
 import com.londongemsapp.data.remote.RedditDtoMapper
 import com.londongemsapp.domain.model.Category
@@ -9,7 +9,6 @@ import com.londongemsapp.domain.model.DataResult
 import com.londongemsapp.domain.model.Recommendation
 import com.londongemsapp.domain.repository.RecommendationRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,10 +18,8 @@ class RecommendationRepositoryImpl @Inject constructor(
     private val redditApi: RedditApi,
     private val dao: RecommendationDao,
     private val mapper: RedditDtoMapper,
-    private val prefs: SharedPreferences,
+    private val syncPreferences: SyncPreferences,
 ) : RecommendationRepository {
-
-    private val lastSyncFlow = MutableStateFlow(prefs.getLong(KEY_LAST_SYNC, 0L).takeIf { it > 0 })
 
     override fun getRecommendations(category: Category?): Flow<List<Recommendation>> {
         val entityFlow = if (category != null) {
@@ -58,15 +55,14 @@ class RecommendationRepositoryImpl @Inject constructor(
             val entities = recommendations.map { it.toEntity(fetchedAt = now) }
             dao.upsertFromNetwork(entities)
 
-            prefs.edit().putLong(KEY_LAST_SYNC, now).apply()
-            lastSyncFlow.value = now
+            syncPreferences.setLastSyncTimestamp(now)
 
             DataResult.Success(entities.size)
         } catch (e: Exception) {
             DataResult.Error(e)
         }
 
-    override fun getLastSyncTimestamp(): Flow<Long?> = lastSyncFlow
+    override fun getLastSyncTimestamp(): Flow<Long?> = syncPreferences.getLastSyncTimestamp()
 
     private suspend fun fetchSubreddit(subreddit: String) =
         try {
@@ -80,7 +76,4 @@ class RecommendationRepositoryImpl @Inject constructor(
             emptyList()
         }
 
-    companion object {
-        private const val KEY_LAST_SYNC = "last_sync_timestamp"
-    }
 }
