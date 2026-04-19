@@ -213,7 +213,12 @@ package com.londongemsapp.<layer>.<feature>
 
 ## Profiles (auto-detect by task type)
 
-Every request is handled through ONE profile. Detect automatically by keywords:
+Every request is handled through ONE profile. Detect automatically by keywords.
+
+**IMPORTANT**: When you detect a profile, announce it as the FIRST line of your response:
+> 🔧 Profile: Bug Fix | Stage 1: Reproduce
+
+Update the stage announcement as you progress through each stage.
 
 | Trigger keywords | Profile |
 |-----------------|---------|
