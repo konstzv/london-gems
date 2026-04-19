@@ -33,6 +33,9 @@ class FeedViewModel @Inject constructor(
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
 
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+
     private val _initialLoadComplete = MutableStateFlow(false)
     private val _syncError = MutableStateFlow<String?>(null)
 
@@ -56,13 +59,17 @@ class FeedViewModel @Inject constructor(
     val uiState: StateFlow<UiState<List<Recommendation>>> = combine(
         _selectedCategory.flatMapLatest { category -> getRecommendations(category) },
         _initialLoadComplete,
-        _syncError
-    ) { recommendations, loadComplete, syncError ->
+        _syncError,
+        _searchQuery
+    ) { recommendations, loadComplete, syncError, query ->
+        val filtered = if (query.isBlank()) recommendations
+            else recommendations.filter { it.title.contains(query, ignoreCase = true) }
         when {
-            recommendations.isNotEmpty() -> UiState.Success(recommendations)
+            filtered.isNotEmpty() -> UiState.Success(filtered)
+            query.isNotBlank() -> UiState.Success(filtered)
             !loadComplete -> UiState.Loading
             syncError != null -> UiState.Error(syncError)
-            else -> UiState.Success(recommendations)
+            else -> UiState.Success(filtered)
         }
     }
         .stateIn(
@@ -77,6 +84,10 @@ class FeedViewModel @Inject constructor(
 
     fun selectCategory(category: Category?) {
         _selectedCategory.value = category
+    }
+
+    fun updateSearchQuery(query: String) {
+        _searchQuery.value = query
     }
 
     fun refresh() {

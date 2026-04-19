@@ -52,7 +52,7 @@
 
 ## Advanced
 
-- [ ] **T17** [Feature] Add search bar to Feed screen — local filter by title text using a TextField. **Done when**: search bar filters visible recommendations by title.
+- [x] **T17** [Feature] Add search bar to Feed screen — local filter by title text using a TextField. **Done when**: search bar filters visible recommendations by title.
 
 - [ ] **T18** [Feature] Add "Clear all favorites" button to Favorites screen with confirmation dialog. **Done when**: button exists, shows confirmation, clears all favorites.
 
