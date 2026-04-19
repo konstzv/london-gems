@@ -16,7 +16,7 @@
 
 - [x] **T03** [Bug] Category chips don't show "All" option — no way to clear filter and see all categories again. **Done when**: "All" chip appears first in the row and clears the category filter.
 
-- [ ] **T04** [Bug] Favorite heart icon in top bar has no ripple/click feedback — looks like it's not clickable. **Done when**: heart icon button shows click ripple effect.
+- [x] **T04** [Bug] Favorite heart icon in top bar has no ripple/click feedback — looks like it's not clickable. **Done when**: heart icon button shows click ripple effect.
 
 ## Small Features
 
