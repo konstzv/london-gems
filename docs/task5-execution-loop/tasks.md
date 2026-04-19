@@ -20,7 +20,7 @@
 
 ## Small Features
 
-- [ ] **T05** [Feature] Add pull-to-refresh indicator to Feed screen — currently no visual feedback during refresh. **Done when**: SwipeRefresh or PullToRefreshBox shows spinner while syncing.
+- [x] **T05** [Feature] Add pull-to-refresh indicator to Feed screen — currently no visual feedback during refresh. **Done when**: SwipeRefresh or PullToRefreshBox shows spinner while syncing.
 
 - [ ] **T06** [Feature] Show recommendation count in category chips — e.g. "Food & Drinks (12)". **Done when**: each chip shows count of items in that category.
 
