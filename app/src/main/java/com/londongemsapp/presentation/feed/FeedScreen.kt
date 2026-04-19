@@ -13,10 +13,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DoneAll
 import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -86,11 +90,7 @@ fun FeedScreen(
         ) {
             CategoryChipRow(
                 selectedCategory = selectedCategory,
-                onCategorySelected = { category ->
-                    viewModel.selectCategory(
-                        if (category == selectedCategory) null else category
-                    )
-                }
+                onCategorySelected = { viewModel.selectCategory(it) }
             )
 
             PullToRefreshBox(
@@ -163,12 +163,30 @@ fun FeedScreen(
 @Composable
 private fun CategoryChipRow(
     selectedCategory: Category?,
-    onCategorySelected: (Category) -> Unit
+    onCategorySelected: (Category?) -> Unit
 ) {
     LazyRow(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        item {
+            FilterChip(
+                selected = selectedCategory == null,
+                onClick = { onCategorySelected(null) },
+                label = { Text("All") },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.DoneAll,
+                        contentDescription = "All"
+                    )
+                },
+                colors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                    selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    selectedLeadingIconColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            )
+        }
         items(Category.entries.toList()) { category ->
             CategoryChip(
                 category = category,

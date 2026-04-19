@@ -14,7 +14,7 @@
 
 - [x] **T02** [Bug] Feed shows loading spinner forever on first launch with no network — UiState stays Loading even when sync fails. **Done when**: shows error/empty state instead of infinite spinner when offline.
 
-- [ ] **T03** [Bug] Category chips don't show "All" option — no way to clear filter and see all categories again. **Done when**: "All" chip appears first in the row and clears the category filter.
+- [x] **T03** [Bug] Category chips don't show "All" option — no way to clear filter and see all categories again. **Done when**: "All" chip appears first in the row and clears the category filter.
 
 - [ ] **T04** [Bug] Favorite heart icon in top bar has no ripple/click feedback — looks like it's not clickable. **Done when**: heart icon button shows click ripple effect.
 
