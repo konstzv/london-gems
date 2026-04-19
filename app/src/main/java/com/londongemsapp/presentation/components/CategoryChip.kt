@@ -24,12 +24,14 @@ fun CategoryChip(
     category: Category,
     selected: Boolean,
     onSelected: (Category) -> Unit,
+    count: Int? = null,
     modifier: Modifier = Modifier
 ) {
+    val label = if (count != null) "${category.displayName()} ($count)" else category.displayName()
     FilterChip(
         selected = selected,
         onClick = { onSelected(category) },
-        label = { Text(category.displayName()) },
+        label = { Text(label) },
         leadingIcon = {
             Icon(
                 imageVector = category.icon(),

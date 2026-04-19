@@ -53,6 +53,7 @@ fun FeedScreen(
     val uiState by viewModel.uiState.collectAsState()
     val selectedCategory by viewModel.selectedCategory.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
+    val categoryCounts by viewModel.categoryCounts.collectAsState()
     val lastSync by viewModel.lastSyncTimestamp.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -90,6 +91,7 @@ fun FeedScreen(
         ) {
             CategoryChipRow(
                 selectedCategory = selectedCategory,
+                categoryCounts = categoryCounts,
                 onCategorySelected = { viewModel.selectCategory(it) }
             )
 
@@ -163,6 +165,7 @@ fun FeedScreen(
 @Composable
 private fun CategoryChipRow(
     selectedCategory: Category?,
+    categoryCounts: Map<Category, Int>,
     onCategorySelected: (Category?) -> Unit
 ) {
     LazyRow(
@@ -173,7 +176,10 @@ private fun CategoryChipRow(
             FilterChip(
                 selected = selectedCategory == null,
                 onClick = { onCategorySelected(null) },
-                label = { Text("All") },
+                label = {
+                    val total = categoryCounts.values.sum()
+                    Text(if (total > 0) "All ($total)" else "All")
+                },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.DoneAll,
@@ -191,7 +197,8 @@ private fun CategoryChipRow(
             CategoryChip(
                 category = category,
                 selected = category == selectedCategory,
-                onSelected = onCategorySelected
+                onSelected = onCategorySelected,
+                count = categoryCounts[category]
             )
         }
     }
