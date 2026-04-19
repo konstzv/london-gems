@@ -21,6 +21,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.londongemsapp.BuildConfig
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,7 +75,7 @@ fun SettingsScreen() {
             // About
             ListItem(
                 headlineContent = { Text("About") },
-                supportingContent = { Text("London Gems v1.0.0") },
+                supportingContent = { Text("London Gems v${BuildConfig.VERSION_NAME}") },
                 leadingContent = {
                     Icon(
                         imageVector = Icons.Outlined.Info,

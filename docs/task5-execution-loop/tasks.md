@@ -24,7 +24,7 @@
 
 - [x] **T06** [Feature] Show recommendation count in category chips — e.g. "Food & Drinks (12)". **Done when**: each chip shows count of items in that category.
 
-- [ ] **T07** [Feature] Add "About" section in Settings screen — show app version, GitHub link. **Done when**: Settings screen shows app version from BuildConfig.
+- [x] **T07** [Feature] Add "About" section in Settings screen — show app version, GitHub link. **Done when**: Settings screen shows app version from BuildConfig.
 
 - [ ] **T08** [Feature] Add timestamp formatting — show "2h ago" or "3 days ago" instead of raw timestamp. **Done when**: cards show relative time like "2h ago".
 
