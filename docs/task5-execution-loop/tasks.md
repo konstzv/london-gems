@@ -66,7 +66,7 @@
 
 - [x] **T22** [Feature] Modern card design — redesign RecommendationCard with: rounded corners (16dp), subtle gradient overlay on image, title overlaid on bottom of image (white text on dark gradient), category chip as small pill on top-left corner of image, remove separate text section below image. **Done when**: cards look modern like Instagram/Pinterest style with text on image.
 
-- [ ] **T23** [Feature] Add shimmer loading placeholders — show animated shimmer cards while feed is loading instead of plain CircularProgressIndicator. Use Compose animation, no external library. **Done when**: loading state shows 3-4 shimmer card placeholders.
+- [x] **T23** [Feature] Add shimmer loading placeholders — show animated shimmer cards while feed is loading instead of plain CircularProgressIndicator. Use Compose animation, no external library. **Done when**: loading state shows 3-4 shimmer card placeholders.
 
 - [ ] **T24** [Feature] Dark/Light theme toggle in Settings — add switch that persists theme choice. Currently follows system only. **Done when**: Settings has theme toggle (System/Light/Dark), choice persists across app restarts.
 

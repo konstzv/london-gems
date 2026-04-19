@@ -1,7 +1,6 @@
 package com.londongemsapp.presentation.feed
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +17,6 @@ import androidx.compose.material.icons.filled.DoneAll
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.ErrorOutline
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -37,7 +35,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -47,6 +44,7 @@ import com.londongemsapp.domain.model.Recommendation
 import com.londongemsapp.presentation.components.CategoryChip
 import com.londongemsapp.presentation.components.EmptyState
 import com.londongemsapp.presentation.components.RecommendationCard
+import com.londongemsapp.presentation.components.ShimmerLoadingPlaceholder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -125,12 +123,7 @@ fun FeedScreen(
             ) {
                 when (val state = uiState) {
                     is UiState.Loading -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator()
-                        }
+                        ShimmerLoadingPlaceholder(modifier = Modifier.fillMaxSize())
                     }
 
                     is UiState.Success -> {
