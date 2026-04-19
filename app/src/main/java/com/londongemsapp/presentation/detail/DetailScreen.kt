@@ -43,8 +43,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.londongemsapp.R
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.londongemsapp.domain.model.Recommendation
 import com.londongemsapp.presentation.components.EmptyState
@@ -74,7 +76,7 @@ fun DetailScreen(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(R.string.navigate_back)
                         )
                     }
                 },
@@ -88,11 +90,10 @@ fun DetailScreen(
                                 } else {
                                     Icons.Filled.FavoriteBorder
                                 },
-                                contentDescription = if (recommendation.isFavorite) {
-                                    "Remove from favorites"
-                                } else {
-                                    "Save to favorites"
-                                },
+                                contentDescription = stringResource(
+                                    if (recommendation.isFavorite) R.string.remove_from_favorites
+                                    else R.string.save_to_favorites
+                                ),
                                 tint = if (recommendation.isFavorite) {
                                     MaterialTheme.colorScheme.error
                                 } else {
@@ -159,7 +160,7 @@ private fun DetailContent(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                text = "From r/${recommendation.subreddit}",
+                text = stringResource(R.string.from_subreddit, recommendation.subreddit),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -176,7 +177,7 @@ private fun DetailContent(
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = "${recommendation.score} upvotes",
+                text = stringResource(R.string.upvotes_count, recommendation.score),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -223,7 +224,9 @@ private fun DetailContent(
                 )
                 Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
                 Text(
-                    text = if (recommendation.isDone) "Done" else "Mark as done"
+                    text = stringResource(
+                        if (recommendation.isDone) R.string.done else R.string.mark_as_done
+                    )
                 )
             }
         }
@@ -247,7 +250,7 @@ private fun DetailContent(
                     modifier = Modifier.size(ButtonDefaults.IconSize)
                 )
                 Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
-                Text("Open on Reddit")
+                Text(stringResource(R.string.open_on_reddit))
             }
 
             OutlinedButton(
@@ -257,7 +260,7 @@ private fun DetailContent(
                         putExtra(Intent.EXTRA_TEXT, "${recommendation.title}\n$redditUrl")
                         type = "text/plain"
                     }
-                    context.startActivity(Intent.createChooser(sendIntent, "Share"))
+                    context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.share)))
                 },
                 modifier = Modifier.weight(1f)
             ) {
@@ -267,7 +270,7 @@ private fun DetailContent(
                     modifier = Modifier.size(ButtonDefaults.IconSize)
                 )
                 Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
-                Text("Share")
+                Text(stringResource(R.string.share))
             }
         }
     }
