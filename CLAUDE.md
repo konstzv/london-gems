@@ -208,7 +208,7 @@ package com.londongemsapp.<layer>.<feature>
 ## Build & Run
 
 ```bash
-JAVA_HOME=$(/usr/libexec/java_home -v 17) ANDROID_HOME=/opt/android_sdk ./gradlew assembleDebug
+./gradlew assembleDebug
 ```
 
 ## Key Design Decisions
